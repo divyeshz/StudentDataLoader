@@ -11,17 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->char('id', 36)->primary();
+            $table->string('roll_no', 15);
             $table->string('name', 50);
+            $table->integer('class');
             $table->string('email', 50)->unique();
-            $table->string('password');
-            $table->enum('type', ['admin', 'user']);
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->string('guardian_name', 50)->nullable();
+            $table->string('guardian_email', 50)->unique();
+            $table->string('city', 10)->nullable();
+            $table->string('state', 10)->nullable();
+            $table->integer('pincode')->nullable();
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
             $table->char('deleted_by', 36)->nullable(); // Delete By Wich User
-            $table->rememberToken();
-            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('students');
     }
 };

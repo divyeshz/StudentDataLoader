@@ -11,18 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('results', function (Blueprint $table) {
             $table->char('id', 36)->primary();
-            $table->string('name', 50);
-            $table->string('email', 50)->unique();
-            $table->string('password');
-            $table->enum('type', ['admin', 'user']);
+            $table->uuid('std_id');
+            $table->integer('Maths');
+            $table->integer('Science');
+            $table->integer('Hindi');
+            $table->integer('English');
+            $table->integer('Social');
+            $table->integer('Computer');
+            $table->integer('Arts');
+            $table->integer('percentage');
+            $table->integer('percentile');
+            $table->integer('percentile');
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
             $table->char('deleted_by', 36)->nullable(); // Delete By Wich User
-            $table->rememberToken();
-            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
+
+            $table->foreign('std_id')->references('id')->on('students')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -31,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('results');
     }
 };
