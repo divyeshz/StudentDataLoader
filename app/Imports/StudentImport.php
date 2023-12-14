@@ -35,6 +35,8 @@ class StudentImport implements ToModel, WithHeadingRow
 
         $percentage = $this->calculatePercentage($rows);
 
+        $status = $this->checkStudentStatus($percentage);
+
         // Extract data for the Result table
         $resultData = [
             "std_id" => $student->id,
@@ -47,6 +49,7 @@ class StudentImport implements ToModel, WithHeadingRow
             "arts" => $rows["arts"],
             "total" => $total,
             "percentage" => $percentage,
+            "status" => $status,
         ];
 
         // Insert data into the Result table
@@ -80,5 +83,20 @@ class StudentImport implements ToModel, WithHeadingRow
         }
 
         return ($obtainedMarks / $totalMarks) * 100;
+    }
+
+    private function checkStudentStatus($percentage)
+    {
+        if ($percentage >= 75) {
+            return "First Class with Distinction";
+        } elseif ($percentage >= 60) {
+            return "First Class";
+        } elseif ($percentage >= 50) {
+            return "Second Class";
+        } elseif ($percentage >= 40) {
+            return "Pass";
+        } else {
+            return "Fail";
+        }
     }
 }

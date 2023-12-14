@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\StudentImport;
+use App\Traits\JsonResponseTrait;
 
 class StudentController extends Controller
 {
+    use JsonResponseTrait;
     public function store(Request $request)
     {
         // Check if the request has a file attached
@@ -15,9 +17,9 @@ class StudentController extends Controller
 
             $data = Excel::import(new StudentImport, $request->file('students'));
 
-            return response()->json(['message' => 'Data Insert successfully']);
+            return $this->success(200, 'Students Insert successfully!!!');
         }
 
-        return response()->json(['message' => 'Invalid file or no file uploaded'], 400);
+        return $this->error(400, 'Invalid file or no file uploaded!!!');
     }
 }

@@ -21,7 +21,7 @@ class Result extends BaseModel
         'arts',
         'total',
         'percentage',
-        'result',
+        'status',
         'created_by',
         'updated_by',
         'deleted_by',
