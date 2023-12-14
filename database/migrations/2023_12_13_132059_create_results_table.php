@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->char('id', 36)->primary();
             $table->uuid('std_id');
-            $table->integer('Maths');
-            $table->integer('Science');
-            $table->integer('Hindi');
-            $table->integer('English');
-            $table->integer('Social');
-            $table->integer('Computer');
-            $table->integer('Arts');
-            $table->integer('percentage');
-            $table->integer('percentile');
-            $table->integer('percentile');
+            $table->integer('maths');
+            $table->integer('science');
+            $table->integer('hindi');
+            $table->integer('english');
+            $table->integer('social_science');
+            $table->integer('computer');
+            $table->integer('arts');
+            $table->integer('total')->default(0);
+            $table->decimal('percentage', 8, 2)->default(0);
+            $table->char('status',50)->nullable();
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
             $table->char('deleted_by', 36)->nullable(); // Delete By Wich User
