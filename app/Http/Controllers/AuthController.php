@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\JsonResponseTrait;
@@ -38,7 +37,7 @@ class AuthController extends Controller
     }
 
     /* User Logout */
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::user()->tokens()->delete();
         return response()->json(['message' => 'Logout SuccessFully!!!']);
