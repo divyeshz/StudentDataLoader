@@ -12,7 +12,7 @@ use App\Traits\JsonResponseTrait;
 class ScheduleController extends Controller
 {
     use JsonResponseTrait, EmailsTrait;
-    public function store(Request $request)
+    public function import(Request $request)
     {
         $request->validate([
             'schedule_type'     => 'required|string|in:student,class',
