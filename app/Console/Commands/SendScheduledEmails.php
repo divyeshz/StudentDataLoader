@@ -57,6 +57,7 @@ class SendScheduledEmails extends Command
                 if ($scheduled->schedule_type == 'student') {
                     // Send mail to the specific student
                     $student = Student::where('roll_no', $scheduled->std_roll_no)->first();
+                    $scheduled->update(['status' => "in progress"]);
                     dispatch(new SendScheduledEmailJob($student));
                 }
                 $scheduled->update(['status' => "complete"]);

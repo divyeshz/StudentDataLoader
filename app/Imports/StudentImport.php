@@ -4,12 +4,10 @@ namespace App\Imports;
 
 use App\Models\Result;
 use App\Models\Student;
-use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\Importable;
-use Throwable;
 
 class StudentImport implements ToModel, WithHeadingRow, WithValidation
 {
