@@ -4,11 +4,40 @@ namespace App\Imports;
 
 use App\Models\Result;
 use App\Models\Student;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\Importable;
+use Throwable;
 
-class StudentImport implements ToModel, WithHeadingRow
+class StudentImport implements ToModel, WithHeadingRow, WithValidation
 {
+    use Importable;
+
+    private $failures = [];
+
+    public function rules(): array
+    {
+        return [
+            'roll_no'        => 'required|regex:/^STD_\d{5}$/',
+            'name'           => 'required|string',
+            'class'          => 'required|numeric|in:1,2,3,4,5,6,7,8,9,10,11,12',
+            'email'          => 'required|email',
+            'gender'         => 'required|in:male,female,other',
+            'guardian_name'  => 'required|string',
+            'guardian_email' => 'required|email',
+            'city'           => 'required|string',
+            'state'          => 'required|string',
+            'pincode'        => 'required|digits:6',
+        ];
+    }
+
+    public function failures()
+    {
+        return $this->failures;
+    }
+
     /**
      * @param array $rows
      */
