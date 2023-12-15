@@ -15,7 +15,7 @@ class StudentController extends Controller
         // Check if the request has a file attached
         if ($request->hasFile('students') && $request->file('students')->getClientOriginalExtension() == 'xlsx') {
 
-            $data = Excel::import(new StudentImport, $request->file('students'));
+            Excel::import(new StudentImport, $request->file('students'));
 
             return $this->success(200, 'Students Insert successfully!!!');
         }

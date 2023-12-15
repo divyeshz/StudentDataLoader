@@ -26,4 +26,8 @@ class Student extends BaseModel
         'updated_by',
         'deleted_by',
     ];
+
+    public function result(){
+        return $this->hasOne(Result::class,'std_id');
+    }
 }

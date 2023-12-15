@@ -13,7 +13,6 @@ class AuthController extends Controller
     use JsonResponseTrait;
     public function login(Request $request)
     {
-        $data = array();
         // Validate Data
         $request->validate([
             'email'     => 'required|email|exists:users',
