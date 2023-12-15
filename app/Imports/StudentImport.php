@@ -16,65 +16,53 @@ class StudentImport implements ToModel, WithHeadingRow
     {
         // Extract data for the Student table
         $studentData = [
-            "roll_no" => $rows["roll_no"],
-            "name" => $rows["name"],
-            "class" => $rows["class"],
-            "email" => $rows["email"],
-            "gender" => $rows["gender"],
-            "guardian_name" => $rows["guardian_name"],
+            "roll_no"        => $rows["roll_no"],
+            "name"           => $rows["name"],
+            "class"          => $rows["class"],
+            "email"          => $rows["email"],
+            "gender"         => $rows["gender"],
+            "guardian_name"  => $rows["guardian_name"],
             "guardian_email" => $rows["guardian_email"],
-            "city" => $rows["city"],
-            "state" => $rows["state"],
-            "pincode" => $rows["pincode"],
+            "city"           => $rows["city"],
+            "state"          => $rows["state"],
+            "pincode"        => $rows["pincode"],
         ];
 
         // Insert data into the Student table
         $student = Student::create($studentData);
 
-        $total = $this->totalMarks($rows);
-
-        $percentage = $this->calculatePercentage($rows);
-
-        $status = $this->checkStudentStatus($percentage);
+        $percentageAndTotal = $this->calculatePercentageAndTotal($rows);
+        $percentage         = $percentageAndTotal['percentage'];
+        $total              = $percentageAndTotal['total'];
+        $status             = $this->checkStudentStatus($percentage);
 
         // Extract data for the Result table
         $resultData = [
-            "std_id" => $student->id,
-            "maths" => $rows["maths"],
-            "science" => $rows["science"],
-            "hindi" => $rows["hindi"],
-            "english" => $rows["english"],
-            "social_science" => $rows["social_science"],
-            "computer" => $rows["computer"],
-            "arts" => $rows["arts"],
-            "total" => $total,
-            "percentage" => $percentage,
-            "status" => $status,
+            "std_id"            => $student->id,
+            "maths"             => $rows["maths"],
+            "science"           => $rows["science"],
+            "hindi"             => $rows["hindi"],
+            "english"           => $rows["english"],
+            "social_science"    => $rows["social_science"],
+            "computer"          => $rows["computer"],
+            "arts"              => $rows["arts"],
+            "total"             => $total,
+            "percentage"        => $percentage,
+            "status"            => $status,
         ];
 
         // Insert data into the Result table
         Result::create($resultData);
     }
 
-    private function totalMarks(array $rows)
+    private function calculatePercentageAndTotal(array $rows)
     {
-        $subjects = ['maths', 'science', 'hindi', 'english', 'social_science', 'computer', 'arts'];
-
-        $obtainedMarks = 0;
-        foreach ($subjects as $subject) {
-            $obtainedMarks += isset($rows[$subject]) ? $rows[$subject] : 0;
-        }
-        return intval($obtainedMarks);
-    }
-
-    private function calculatePercentage(array $rows)
-    {
-        $subjects = ['maths', 'science', 'hindi', 'english', 'social_science', 'computer', 'arts'];
-        $totalMarks = 0;
+        $subjects      = ['maths', 'science', 'hindi', 'english', 'social_science', 'computer', 'arts'];
+        $totalMarks    = 0;
         $obtainedMarks = 0;
 
         foreach ($subjects as $subject) {
-            $totalMarks += 100;
+            $totalMarks    += 100;
             $obtainedMarks += isset($rows[$subject]) ? $rows[$subject] : 0;
         }
 
@@ -82,7 +70,8 @@ class StudentImport implements ToModel, WithHeadingRow
             return 0; // To avoid division by zero
         }
 
-        return ($obtainedMarks / $totalMarks) * 100;
+        $percentage = ($obtainedMarks / $totalMarks) * 100;
+        return ['percentage' => $percentage, 'total' => intval($obtainedMarks)];
     }
 
     private function checkStudentStatus($percentage)
