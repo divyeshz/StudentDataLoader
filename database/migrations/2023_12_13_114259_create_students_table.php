@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('city', 10)->nullable();
             $table->string('state', 10)->nullable();
             $table->integer('pincode')->nullable();
+            $table->char('import_filename',50)->nullable();
             $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User

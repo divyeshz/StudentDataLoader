@@ -11,7 +11,7 @@ use App\Traits\JsonResponseTrait;
 class StudentController extends Controller
 {
     use JsonResponseTrait;
-    public function store(Request $request)
+    public function import(Request $request)
     {
 
         // Validate the uploaded file
@@ -24,10 +24,11 @@ class StudentController extends Controller
 
             // Process the uploaded file
             $file = $request->file('students');
+            $filename = $file->getClientOriginalName();
 
             // Import the file data using StudentImport
             try {
-                $import = new StudentImport();
+                $import = new StudentImport($filename);
                 Excel::import($import, $file);
 
                 // Check for validation failures after the import

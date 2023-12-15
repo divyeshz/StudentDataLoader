@@ -32,10 +32,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::controller(StudentController::class)->prefix('student')->group(function () {
-        Route::post('store', 'store')->name('student.store');
+        Route::post('import', 'import')->name('student.import');
+        Route::post('export', 'export')->name('student.export');
     });
 
     Route::controller(ScheduleController::class)->prefix('schedule')->group(function () {
-        Route::post('store', 'store')->name('schedule.store');
+        Route::post('import', 'import')->name('schedule.import');
     });
 });

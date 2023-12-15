@@ -21,6 +21,7 @@ class Student extends BaseModel
         'city',
         'state',
         'pincode',
+        'import_filename',
         'is_active',
         'created_by',
         'updated_by',

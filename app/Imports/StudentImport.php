@@ -15,6 +15,12 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
 {
     use Importable;
 
+    public $filename;
+
+    public function __construct($filename)
+    {
+        $this->filename = $filename;
+    }
     private $failures = [];
 
     public function rules(): array
@@ -45,16 +51,17 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
     {
         // Extract data for the Student table
         $studentData = [
-            "roll_no"        => $rows["roll_no"],
-            "name"           => $rows["name"],
-            "class"          => $rows["class"],
-            "email"          => $rows["email"],
-            "gender"         => $rows["gender"],
-            "guardian_name"  => $rows["guardian_name"],
-            "guardian_email" => $rows["guardian_email"],
-            "city"           => $rows["city"],
-            "state"          => $rows["state"],
-            "pincode"        => $rows["pincode"],
+            "roll_no"           => $rows["roll_no"],
+            "name"              => $rows["name"],
+            "class"             => $rows["class"],
+            "email"             => $rows["email"],
+            "gender"            => $rows["gender"],
+            "guardian_name"     => $rows["guardian_name"],
+            "guardian_email"    => $rows["guardian_email"],
+            "city"              => $rows["city"],
+            "state"             => $rows["state"],
+            "pincode"           => $rows["pincode"],
+            "import_filename"   => $this->filename,
         ];
 
         // Insert data into the Student table
