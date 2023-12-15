@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
@@ -24,13 +23,13 @@ use App\Http\Controllers\ScheduleController;
 // Authentication Routes Group
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
-
-    Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::post('logout', 'logout')->name('logout');
-    });
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::controller(AuthController::class)->group(function () {
+        Route::post('logout', 'logout')->name('logout');
+    });
 
     Route::controller(StudentController::class)->prefix('student')->group(function () {
         Route::post('store', 'store')->name('student.store');
