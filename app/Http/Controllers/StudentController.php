@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Validators\ValidationException;
+use App\Exports\StudentExport;
 use App\Imports\StudentImport;
 use App\Traits\JsonResponseTrait;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class StudentController extends Controller
 {
@@ -49,5 +50,23 @@ class StudentController extends Controller
         }
 
         return $this->error(400, 'Invalid file or no file uploaded!!!');
+    }
+
+    public function export(Request $request)
+    {
+
+        // Validate the uploaded file
+        $request->validate([
+            'export_type'       => 'required|string|in:file,class',
+            'filename'          => 'required_if:export_type,file',
+            'class'             => 'required_if:export_type,class',
+            'export_filename'   => 'required|string',
+            'export_filetype'   => 'required|in:.xlsx,.xls,.csv',
+        ]);
+
+        $export_filename = $request->export_filename . $request->export_filetype;
+
+        $export = new StudentExport($request);
+        return Excel::download($export,  $export_filename);
     }
 }
