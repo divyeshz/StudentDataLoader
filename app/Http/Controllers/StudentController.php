@@ -58,8 +58,22 @@ class StudentController extends Controller
         // Validate the uploaded file
         $request->validate([
             'export_type'       => 'required|string|in:file,class',
-            'filename'          => 'required_if:export_type,file',
-            'class'             => 'required_if:export_type,class',
+            'export_value' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->export_type === 'file') {
+                        // Validate file extensions
+                        if (!in_array(pathinfo($value, PATHINFO_EXTENSION), ['xlsx', 'xls', 'csv'])) {
+                            $fail('The ' . $attribute . ' must have .xlsx, .xls, or .csv extension.');
+                        }
+                    } elseif ($request->export_type === 'class') {
+                        // Validate numeric value between 1 and 12
+                        if (!is_numeric($value) || $value < 1 || $value > 12) {
+                            $fail('The ' . $attribute . ' must be a numeric value between 1 and 12.');
+                        }
+                    }
+                }
+            ],
             'export_filename'   => 'required|string',
             'export_filetype'   => 'required|in:.xlsx,.xls,.csv',
         ]);

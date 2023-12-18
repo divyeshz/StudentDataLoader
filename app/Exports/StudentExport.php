@@ -17,35 +17,19 @@ class StudentExport implements FromCollection, WithHeadings
     }
     public function collection()
     {
-        if ($this->request['export_type'] == 'class') {
-            return Student::select([
-                'roll_no',
-                'name',
-                'class',
-                'email',
-                'gender',
-                'guardian_name',
-                'guardian_email',
-                'city',
-                'state',
-                'pincode',
-            ])->where('class', $this->request['class'])->get();
-        }
 
-        if ($this->request['export_type'] == 'file') {
-            return Student::select([
-                'roll_no',
-                'name',
-                'class',
-                'email',
-                'gender',
-                'guardian_name',
-                'guardian_email',
-                'city',
-                'state',
-                'pincode',
-            ])->where('import_filename', $this->request['filename'])->get();
-        }
+        return Student::select([
+            'roll_no',
+            'name',
+            'class',
+            'email',
+            'gender',
+            'guardian_name',
+            'guardian_email',
+            'city',
+            'state',
+            'pincode',
+        ])->where('class', $this->request['export_value'])->orWhere('import_filename', $this->request['export_value'])->get();
     }
 
     public function headings(): array
