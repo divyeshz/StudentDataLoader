@@ -38,6 +38,6 @@ class ScheduleController extends Controller
             'datetime'          => $request->datetime,
         ]);
 
-        return success(200, 'Schedule Insert successfully!!!');
+        return success(200, __('custom.schedule.insert'), $request->all());
     }
 }

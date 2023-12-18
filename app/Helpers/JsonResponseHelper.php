@@ -38,8 +38,10 @@ function error($statusCode, $message, $data = null)
 {
     $errorMessages = [
         400 => 'Bad Request!',
+        401 => 'Unauthenticated!',
         403 => 'Unauthorized!',
         404 => 'Not Found!',
+        415 => 'Unsupported Media Type!',
         422 => 'Unprocessable Entity!',
         500 => 'Internal Server Error!',
         // Add more status codes and messages as needed

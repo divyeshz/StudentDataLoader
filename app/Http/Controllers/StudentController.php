@@ -37,7 +37,7 @@ class StudentController extends Controller
                     return error(422, ['errors' => $failures]);
                 }
 
-                return success(200, 'File imported successfully');
+                return success(200, __('custom.student.insert'), $request->all());
             } catch (ValidationException $e) {
                 $failures = $e->failures();
 
@@ -47,7 +47,7 @@ class StudentController extends Controller
             }
         }
 
-        return error(400, 'Invalid file or no file uploaded!!!');
+        return error(415, __('custom.student.invalid_file'));
     }
 
     public function export(Request $request)
