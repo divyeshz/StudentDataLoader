@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class CustomSchedule extends BaseModel
 {
@@ -12,9 +11,9 @@ class CustomSchedule extends BaseModel
     protected $fillable = [
         'schedule_type',
         'datetime',
-        'std_roll_no',
-        'class',
+        'schedule_value',
         'is_active',
+        'is_send',
         'status',
         'created_by',
         'updated_by',

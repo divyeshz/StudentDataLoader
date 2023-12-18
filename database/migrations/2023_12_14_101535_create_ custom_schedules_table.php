@@ -15,8 +15,7 @@ return new class extends Migration
             $table->char('id', 36)->primary();
             $table->char('schedule_type', 50)->nullable();
             $table->dateTime('datetime')->nullable();
-            $table->string('std_roll_no', 15)->nullable();
-            $table->integer('class')->nullable();
+            $table->string('schedule_value', 15)->nullable();
             $table->char('status', 50)->nullable();
             $table->boolean('is_send')->default(0)->comment('0:false,1:true');
             $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');

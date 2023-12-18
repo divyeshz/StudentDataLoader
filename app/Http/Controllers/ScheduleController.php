@@ -14,19 +14,18 @@ class ScheduleController extends Controller
     use JsonResponseTrait, EmailsTrait;
     public function import(Request $request)
     {
+        // validation
         $request->validate([
             'schedule_type'     => 'required|string|in:student,class',
+            'schedule_value'    => 'required|string',
             'datetime'          => 'required|date_format:Y-m-d H:i:s',
-            'std_roll_no'       => 'required_if:schedule_type,student',
-            'class'             => 'required_if:schedule_type,class',
         ]);
 
-        // Create a record in custom_schedules table for the entire class
+        // Create a record in CustomSchedule table
         CustomSchedule::create([
-            'schedule_type' => $request->schedule_type,
-            'datetime'      => $request->datetime,
-            'std_roll_no'   => $request->std_roll_no,
-            'class'         => $request->class,
+            'schedule_type'     => $request->schedule_type,
+            'schedule_value'    => $request->schedule_value,
+            'datetime'          => $request->datetime,
         ]);
 
         return $this->success(200, 'Schedule Insert successfully!!!');

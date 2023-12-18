@@ -30,38 +30,31 @@ class SendScheduledEmails extends Command
     public function handle()
     {
 
-        $currentDateTime = Carbon::now();
-        $scheduleds = CustomSchedule::where('is_send', 0)->get();
+        $currentDateTime = Carbon::now()->format('Y-m-d H:i:00');
+        $scheduleds = CustomSchedule::where('is_send', 0)
+            ->where('datetime', '=', $currentDateTime)
+            ->get();
 
         foreach ($scheduleds as $scheduled) {
-            $scheduledDateTime = Carbon::parse($scheduled->datetime);
-            if (
-                $scheduledDateTime->year === $currentDateTime->year &&
-                $scheduledDateTime->month === $currentDateTime->month &&
-                $scheduledDateTime->day === $currentDateTime->day &&
-                $scheduledDateTime->hour === $currentDateTime->hour &&
-                $scheduledDateTime->minute === $currentDateTime->minute
-            ) {
+            $scheduled->update(['status' => "schedule"]);
 
-                $scheduled->update(['status' => "schedule"]);
-
-                if ($scheduled->schedule_type == 'class') {
-                    // Send mail to the entire class
-                    $students = Student::where('class', $scheduled->class)->get();
-                    foreach ($students as $student) {
-                        $scheduled->update(['status' => "in progress"]);
-                        dispatch(new SendScheduledEmailJob($student));
-                    }
-                }
-
-                if ($scheduled->schedule_type == 'student') {
-                    // Send mail to the specific student
-                    $student = Student::where('roll_no', $scheduled->std_roll_no)->first();
+            if ($scheduled->schedule_type == 'class') {
+                // Send mail to the entire class
+                $students = Student::where('class', $scheduled->class)->get();
+                foreach ($students as $student) {
                     $scheduled->update(['status' => "in progress"]);
                     dispatch(new SendScheduledEmailJob($student));
                 }
-                $scheduled->update(['status' => "complete"]);
             }
+
+            if ($scheduled->schedule_type == 'student') {
+                // Send mail to the specific student
+                $student = Student::where('roll_no', $scheduled->std_roll_no)->first();
+                $scheduled->update(['status' => "in progress"]);
+                dispatch(new SendScheduledEmailJob($student));
+            }
+            $scheduled->update(['status' => "complete"]);
+            $scheduled->update(['is_send' => true]);
         }
     }
 }
