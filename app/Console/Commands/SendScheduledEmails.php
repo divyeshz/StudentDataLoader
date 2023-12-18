@@ -31,7 +31,7 @@ class SendScheduledEmails extends Command
     {
 
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:00');
-        $scheduleds = CustomSchedule::where('is_send', 0)
+        $scheduleds = CustomSchedule::where('is_send', false)
             ->where('datetime', '=', $currentDateTime)
             ->get();
 
