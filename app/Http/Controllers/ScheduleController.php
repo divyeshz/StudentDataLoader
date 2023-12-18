@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
-use App\Traits\EmailsTrait;
 use Illuminate\Http\Request;
 use App\Models\CustomSchedule;
-use App\Mail\CustomScheduleMail;
-use App\Traits\JsonResponseTrait;
 
 class ScheduleController extends Controller
 {
-    use JsonResponseTrait, EmailsTrait;
     public function import(Request $request)
     {
         // validation
@@ -43,6 +38,6 @@ class ScheduleController extends Controller
             'datetime'          => $request->datetime,
         ]);
 
-        return $this->success(200, 'Schedule Insert successfully!!!');
+        return success(200, 'Schedule Insert successfully!!!');
     }
 }

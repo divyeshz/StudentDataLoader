@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Exports\StudentExport;
 use App\Imports\StudentImport;
-use App\Traits\JsonResponseTrait;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 
 class StudentController extends Controller
 {
-    use JsonResponseTrait;
     public function import(Request $request)
     {
 
@@ -36,20 +34,20 @@ class StudentController extends Controller
                 if ($import->failures()) {
                     $failures = $import->failures();
 
-                    return response()->json(['errors' => $failures], 422);
+                    return error(422, ['errors' => $failures]);
                 }
 
-                return response()->json(['message' => 'File imported successfully']);
+                return success(200, 'File imported successfully');
             } catch (ValidationException $e) {
                 $failures = $e->failures();
 
-                return response()->json(['errors' => $failures], 422);
+                return error(422, ['errors' => $failures]);
             } catch (\Exception $e) {
-                return response()->json(['error' => $e->getMessage()], 500);
+                return error(500, ['error' => $e->getMessage()]);
             }
         }
 
-        return $this->error(400, 'Invalid file or no file uploaded!!!');
+        return error(400, 'Invalid file or no file uploaded!!!');
     }
 
     public function export(Request $request)
