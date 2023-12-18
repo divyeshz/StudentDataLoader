@@ -37,10 +37,9 @@ class SendScheduledEmails extends Command
 
         foreach ($scheduleds as $scheduled) {
             $scheduled->update(['status' => "schedule"]);
-
             if ($scheduled->schedule_type == 'class') {
                 // Send mail to the entire class
-                $students = Student::where('class', $scheduled->class)->get();
+                $students = Student::where('class', $scheduled->schedule_value)->get();
                 foreach ($students as $student) {
                     $scheduled->update(['status' => "in progress"]);
                     dispatch(new SendScheduledEmailJob($student));
@@ -49,7 +48,7 @@ class SendScheduledEmails extends Command
 
             if ($scheduled->schedule_type == 'student') {
                 // Send mail to the specific student
-                $student = Student::where('roll_no', $scheduled->std_roll_no)->first();
+                $student = Student::where('roll_no', $scheduled->schedule_value)->first();
                 $scheduled->update(['status' => "in progress"]);
                 dispatch(new SendScheduledEmailJob($student));
             }
