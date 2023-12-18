@@ -30,4 +30,13 @@ class Student extends BaseModel
     public function result(){
         return $this->hasOne(Result::class,'std_id');
     }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 }
