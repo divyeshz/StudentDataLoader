@@ -15,6 +15,8 @@ class StudentExport implements FromCollection, WithHeadings
     {
         $this->request = $request;
     }
+
+    /* Return Student Records BAsed On Condition */
     public function collection()
     {
 
@@ -32,6 +34,7 @@ class StudentExport implements FromCollection, WithHeadings
         ])->where('class', $this->request['export_value'])->orWhere('import_filename', $this->request['export_value'])->get();
     }
 
+    /* Return Headings For Student Records As Column name */
     public function headings(): array
     {
         return [

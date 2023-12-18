@@ -25,17 +25,21 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
 });
 
+// Auth Middleware Routes Group
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+    // Authentication Routes Group
     Route::controller(AuthController::class)->group(function () {
         Route::post('logout', 'logout')->name('logout');
     });
 
+    // Student Routes Group
     Route::controller(StudentController::class)->prefix('student')->group(function () {
         Route::post('import', 'import')->name('student.import');
         Route::post('export', 'export')->name('student.export');
     });
 
+    // Schedule Routes Group
     Route::controller(ScheduleController::class)->prefix('schedule')->group(function () {
         Route::post('import', 'import')->name('schedule.import');
     });

@@ -21,6 +21,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
     }
     private $failures = [];
 
+    /* Validation Rule For Uploaded Student Data File */
     public function rules(): array
     {
         return [
@@ -89,6 +90,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
         Result::create($resultData);
     }
 
+    /* Function For calculate Percentage And Total */
     private function calculatePercentageAndTotal(array $rows)
     {
         $subjects      = ['maths', 'science', 'hindi', 'english', 'social_science', 'computer', 'arts'];
@@ -108,6 +110,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
         return ['percentage' => $percentage, 'total' => intval($obtainedMarks)];
     }
 
+    /* Function For Student Pass OR Fail Status Based On Percentage */
     private function checkStudentStatus($percentage)
     {
         if ($percentage >= 75) {

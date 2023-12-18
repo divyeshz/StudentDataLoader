@@ -55,7 +55,7 @@ class StudentController extends Controller
     public function export(Request $request)
     {
 
-        // Validate the uploaded file
+        // Validate
         $request->validate([
             'export_type'       => 'required|string|in:file,class',
             'export_value' => [
