@@ -6,7 +6,7 @@
  *
  * return a JSON response with the specified status code, message, and data.
  */
-function success($statusCode, $message, $data = null)
+function success($statusCode, $message, $data = [])
 {
     $successMessages = [
         200 => 'Success',
@@ -34,7 +34,7 @@ function success($statusCode, $message, $data = null)
  *
  * return a JSON response with the specified status code, message, and data.
  */
-function error($statusCode, $message, $data = null)
+function error($statusCode, $message, $data = [])
 {
     $errorMessages = [
         400 => 'Bad Request!',

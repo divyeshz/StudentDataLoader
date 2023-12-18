@@ -37,7 +37,7 @@ class StudentController extends Controller
                     return error(422, ['errors' => $failures]);
                 }
 
-                return success(200, __('custom.student.insert'), $request->all());
+                return success(200, __('custom.student.insert'));
             } catch (ValidationException $e) {
                 $failures = $e->failures();
 

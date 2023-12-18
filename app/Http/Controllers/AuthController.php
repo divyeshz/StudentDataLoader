@@ -23,14 +23,14 @@ class AuthController extends Controller
         $user = User::where('email', $credential['email'])->first();
         if ($user && Hash::check($credential['password'], $user->password)) {
             if ($user->is_active != true) {
-                return error(401, __('auth.is_active'), $request->all());
+                return error(401, __('auth.is_active'), ['user' => $user]);
             }
             if (Auth::attempt($credential)) {
-                $request['token'] = $user->createToken('AuthToken')->plainTextToken;
-                return success(200,  __('auth.success'), $request->all());
+                $token = $user->createToken('AuthToken')->plainTextToken;
+                return success(200,  __('auth.success'), ['user' => $user, 'token' => $token]);
             }
         }
-        return error(400, __('auth.failed'), $request->all());
+        return error(400, __('auth.failed'), ['user' => $user]);
     }
 
     /* User Logout */

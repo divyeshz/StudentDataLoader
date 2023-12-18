@@ -32,12 +32,12 @@ class ScheduleController extends Controller
         ]);
 
         // Create a record in CustomSchedule table
-        CustomSchedule::create([
+        $schedule = CustomSchedule::create([
             'schedule_type'     => $request->schedule_type,
             'schedule_value'    => $request->schedule_value,
             'datetime'          => $request->datetime,
         ]);
 
-        return success(200, __('custom.schedule.insert'), $request->all());
+        return success(200, __('custom.schedule.insert'), ["schedule" => $schedule]);
     }
 }
