@@ -50,49 +50,53 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
     public function model(array $rows)
     {
 
-        // Find or create a file reference
-        $fileReference = FileReference::firstOrCreate(['filename' => $this->filename]);
+        $students = Student::where('roll_no', $rows["roll_no"])->first();
+        if (!$students) {
 
-        // Extract data for the Student table
-        $studentData = [
-            "roll_no"           => $rows["roll_no"],
-            "name"              => $rows["name"],
-            "class"             => $rows["class"],
-            "email"             => $rows["email"],
-            "gender"            => $rows["gender"],
-            "guardian_name"     => $rows["guardian_name"],
-            "guardian_email"    => $rows["guardian_email"],
-            "city"              => $rows["city"],
-            "state"             => $rows["state"],
-            "pincode"           => $rows["pincode"],
-            "file_reference_id" => $fileReference->id,
-        ];
+            // Find or create a file reference
+            $fileReference = FileReference::firstOrCreate(['filename' => $this->filename]);
 
-        // Insert data into the Student table
-        $student = Student::create($studentData);
+            // Extract data for the Student table
+            $studentData = [
+                "roll_no"           => $rows["roll_no"],
+                "name"              => $rows["name"],
+                "class"             => $rows["class"],
+                "email"             => $rows["email"],
+                "gender"            => $rows["gender"],
+                "guardian_name"     => $rows["guardian_name"],
+                "guardian_email"    => $rows["guardian_email"],
+                "city"              => $rows["city"],
+                "state"             => $rows["state"],
+                "pincode"           => $rows["pincode"],
+                "file_reference_id" => $fileReference->id,
+            ];
 
-        $percentageAndTotal = $this->calculatePercentageAndTotal($rows);
-        $percentage         = $percentageAndTotal['percentage'];
-        $total              = $percentageAndTotal['total'];
-        $status             = $this->checkStudentStatus($percentage);
+            // Insert data into the Student table
+            $student = Student::create($studentData);
 
-        // Extract data for the Result table
-        $resultData = [
-            "std_id"            => $student->id,
-            "maths"             => $rows["maths"],
-            "science"           => $rows["science"],
-            "hindi"             => $rows["hindi"],
-            "english"           => $rows["english"],
-            "social_science"    => $rows["social_science"],
-            "computer"          => $rows["computer"],
-            "arts"              => $rows["arts"],
-            "total"             => $total,
-            "percentage"        => $percentage,
-            "status"            => $status,
-        ];
+            $percentageAndTotal = $this->calculatePercentageAndTotal($rows);
+            $percentage         = $percentageAndTotal['percentage'];
+            $total              = $percentageAndTotal['total'];
+            $status             = $this->checkStudentStatus($percentage);
 
-        // Insert data into the Result table
-        Result::create($resultData);
+            // Extract data for the Result table
+            $resultData = [
+                "std_id"            => $student->id,
+                "maths"             => $rows["maths"],
+                "science"           => $rows["science"],
+                "hindi"             => $rows["hindi"],
+                "english"           => $rows["english"],
+                "social_science"    => $rows["social_science"],
+                "computer"          => $rows["computer"],
+                "arts"              => $rows["arts"],
+                "total"             => $total,
+                "percentage"        => $percentage,
+                "status"            => $status,
+            ];
+
+            // Insert data into the Result table
+            Result::create($resultData);
+        }
     }
 
     /* Function For calculate Percentage And Total */

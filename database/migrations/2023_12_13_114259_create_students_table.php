@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('roll_no', 15);
             $table->string('name', 50);
             $table->integer('class');
-            $table->string('email', 50)->unique();
+            $table->string('email', 50);
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('guardian_name', 50)->nullable();
             $table->string('guardian_email', 50);
