@@ -4,10 +4,11 @@ namespace App\Imports;
 
 use App\Models\Result;
 use App\Models\Student;
+use App\Models\FileReference;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\Importable;
 
 class StudentImport implements ToModel, WithHeadingRow, WithValidation
 {
@@ -48,6 +49,10 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $rows)
     {
+
+        // Find or create a file reference
+        $fileReference = FileReference::firstOrCreate(['filename' => $this->filename]);
+
         // Extract data for the Student table
         $studentData = [
             "roll_no"           => $rows["roll_no"],
@@ -60,7 +65,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
             "city"              => $rows["city"],
             "state"             => $rows["state"],
             "pincode"           => $rows["pincode"],
-            "import_filename"   => $this->filename,
+            "file_reference_id" => $fileReference->id,
         ];
 
         // Insert data into the Student table

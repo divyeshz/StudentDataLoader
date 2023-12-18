@@ -21,14 +21,20 @@ class Student extends BaseModel
         'city',
         'state',
         'pincode',
-        'import_filename',
+        'file_reference_id',
         'is_active',
         'created_by',
         'updated_by',
     ];
 
-    public function result(){
-        return $this->hasOne(Result::class,'std_id');
+    public function result()
+    {
+        return $this->hasOne(Result::class, 'std_id');
+    }
+
+    public function fileReference()
+    {
+        return $this->belongsTo(FileReference::class);
     }
 
     /**

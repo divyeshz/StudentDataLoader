@@ -23,11 +23,13 @@ return new class extends Migration
             $table->string('city', 10)->nullable();
             $table->string('state', 10)->nullable();
             $table->integer('pincode')->nullable();
-            $table->char('import_filename',50)->nullable();
+            $table->uuid('file_reference_id')->nullable(); // Foreign key field
             $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
             $table->timestamps();
+
+            $table->foreign('file_reference_id')->references('id')->on('file_references')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
