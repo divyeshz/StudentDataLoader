@@ -24,6 +24,5 @@ class Result extends BaseModel
         'status',
         'created_by',
         'updated_by',
-        'deleted_by',
     ];
 }

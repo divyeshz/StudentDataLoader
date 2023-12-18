@@ -30,7 +30,6 @@ class User extends Authenticatable
         'is_active',
         'created_by',
         'updated_by',
-        'deleted_by',
         'email_verified_at',
     ];
 
@@ -47,10 +46,6 @@ class User extends Authenticatable
             $module->updated_by = $userId;
         });
 
-        static::deleting(function ($module) {
-            $userId = auth()->id() ?? null;
-            $module->deleted_by = $userId;
-        });
     }
 
     /**

@@ -25,10 +25,5 @@ class BaseModel extends Model
             $userId = auth()->id() ?? null;
             $module->updated_by = $userId;
         });
-
-        static::deleting(function ($module) {
-            $userId = auth()->id() ?? null;
-            $module->deleted_by = $userId;
-        });
     }
 }

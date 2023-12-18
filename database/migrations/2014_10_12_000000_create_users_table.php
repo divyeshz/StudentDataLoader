@@ -20,7 +20,6 @@ return new class extends Migration
             $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
-            $table->char('deleted_by', 36)->nullable(); // Delete By Wich User
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

@@ -25,7 +25,6 @@ class Student extends BaseModel
         'is_active',
         'created_by',
         'updated_by',
-        'deleted_by',
     ];
 
     public function result(){

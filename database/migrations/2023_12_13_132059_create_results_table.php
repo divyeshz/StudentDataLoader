@@ -26,7 +26,6 @@ return new class extends Migration
             $table->char('status',50)->nullable();
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
-            $table->char('deleted_by', 36)->nullable(); // Delete By Wich User
             $table->timestamps();
 
             $table->foreign('std_id')->references('id')->on('students')->cascadeOnDelete()->cascadeOnUpdate();
