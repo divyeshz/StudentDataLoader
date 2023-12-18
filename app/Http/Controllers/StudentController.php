@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FileReference;
 use App\Exports\StudentExport;
 use App\Imports\StudentImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -58,17 +59,20 @@ class StudentController extends Controller
             'export_type'       => 'required|string|in:file,class',
             'export_value' => [
                 'required',
+                'string',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($request->export_type === 'file') {
-                        // Validate file extensions
-                        if (!in_array(pathinfo($value, PATHINFO_EXTENSION), ['xlsx', 'xls', 'csv'])) {
-                            $fail('The ' . $attribute . ' must have .xlsx, .xls, or .csv extension.');
+                        // Check if the value exists as a UUID in the FileReference table
+                        if (!FileReference::where('id', $value)->exists()) {
+                            $fail('The selected file does not exist.');
                         }
                     } elseif ($request->export_type === 'class') {
                         // Validate numeric value between 1 and 12
-                        if (!is_numeric($value) || $value < 1 || $value > 12) {
+                        if (!is_numeric($value) || $value <= 1 || $value >= 12) {
                             $fail('The ' . $attribute . ' must be a numeric value between 1 and 12.');
                         }
+                    } else {
+                        $fail('Invalid export type.');
                     }
                 }
             ],

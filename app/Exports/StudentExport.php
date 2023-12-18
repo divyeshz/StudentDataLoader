@@ -31,7 +31,7 @@ class StudentExport implements FromCollection, WithHeadings
             'city',
             'state',
             'pincode',
-        ])->where('class', $this->request['export_value'])->orWhere('import_filename', $this->request['export_value'])->get();
+        ])->where('class', $this->request['export_value'])->orWhere('file_reference_id', $this->request['export_value'])->get();
     }
 
     /* Return Headings For Student Records As Column name */
