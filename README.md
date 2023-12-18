@@ -1,4 +1,4 @@
-<a href="https://github.com/divyeshz/StudentDataLoader.git"> <h1 align="center">Student Result Management</h1></a>
+<a href="https://github.com/divyeshz/StudentDataLoader.git"> <h1 align="center">Student Data Loader</h1></a>
 
 This Laravel-based application manages student data, imports student results, exports data from the database, and schedules result emails to students.
 
