@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email', 50)->unique();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('guardian_name', 50)->nullable();
-            $table->string('guardian_email', 50)->unique();
+            $table->string('guardian_email', 50);
             $table->string('city', 10)->nullable();
             $table->string('state', 10)->nullable();
             $table->integer('pincode')->nullable();
