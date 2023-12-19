@@ -13,7 +13,6 @@ class Student extends BaseModel
     protected $fillable = [
         'roll_no',
         'name',
-        'class',
         'email',
         'gender',
         'guardian_name',
@@ -27,9 +26,8 @@ class Student extends BaseModel
         'updated_by',
     ];
 
-    public function result()
-    {
-        return $this->hasOne(Result::class, 'std_id');
+    public function results() {
+        return $this->hasMany(Result::class, 'std_id', 'id');
     }
 
     public function fileReference()

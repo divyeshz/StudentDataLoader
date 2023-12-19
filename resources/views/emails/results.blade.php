@@ -75,20 +75,41 @@
         @foreach (['maths', 'science', 'hindi', 'english', 'social_science', 'computer', 'arts'] as $subject)
             <tr>
                 <td>{{ ucfirst($subject) }}</td>
-                <td>{{ $student->result[$subject] }}</td>
+                <td>
+                    @foreach ($student->results as $result)
+                        @if ($result->subject === $subject)
+                            {{ $result->score }}
+                        @endif
+                    @endforeach
+                </td>
             </tr>
         @endforeach
         <tr>
             <td><strong>Total</strong></td>
-            <td><strong>{{ $student->result['total'] }}</strong></td>
+            <td><strong>
+                    @foreach ($student->results as $result)
+                        {{ $result->total }}
+                    @endforeach
+                </strong>
+            </td>
         </tr>
         <tr>
             <td><strong>Percentage</strong></td>
-            <td><strong>{{ $student->result['percentage'] }}%</strong></td>
+            <td><strong>
+                    @foreach ($student->results as $result)
+                        {{ $result->percentage }}%
+                    @endforeach
+                </strong>
+            </td>
         </tr>
         <tr>
             <td><strong>Status</strong></td>
-            <td><strong>{{ $student->result['status'] }}</strong></td>
+            <td><strong>
+                    @foreach ($student->results as $result)
+                        {{ $result->status }}
+                    @endforeach
+                </strong>
+            </td>
         </tr>
     </table>
 </body>

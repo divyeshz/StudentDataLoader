@@ -57,8 +57,13 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
     public function model(array $rows)
     {
 
+        // Get Student Data
         $students = Student::where('roll_no', $rows["roll_no"])->first();
-        if (!$students) {
+        // Get results Data With hasMany Relationship
+        $results = $students->results;
+
+        // Chek Student and Result empty than create
+        if (!$students && !$results) {
 
             // Find or create a file reference
             $fileReference = FileReference::firstOrCreate(['filename' => $this->filename]);
@@ -67,7 +72,6 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
             $studentData = [
                 "roll_no"           => $rows["roll_no"],
                 "name"              => $rows["name"],
-                "class"             => $rows["class"],
                 "email"             => $rows["email"],
                 "gender"            => $rows["gender"],
                 "guardian_name"     => $rows["guardian_name"],
@@ -88,7 +92,8 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
 
             // Extract data for the Result table
             $resultData = [
-                "std_id"            => $student->id,
+                "std_id"            => $students->id,
+                "class"             => $rows["class"],
                 "maths"             => $rows["maths"],
                 "science"           => $rows["science"],
                 "hindi"             => $rows["hindi"],
@@ -103,6 +108,36 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
 
             // Insert data into the Result table
             Result::create($resultData);
+        }
+
+        foreach ($results as $result) {
+
+            // Chek Student not empty and Student class is not same as in database result class
+            if ($students && $result->class != $rows["class"]) {
+                $percentageAndTotal = $this->calculatePercentageAndTotal($rows);
+                $percentage         = $percentageAndTotal['percentage'];
+                $total              = $percentageAndTotal['total'];
+                $status             = $this->checkStudentStatus($percentage);
+
+                // Extract data for the Result table
+                $resultData = [
+                    "std_id"            => $students->id,
+                    "class"             => $rows["class"],
+                    "maths"             => $rows["maths"],
+                    "science"           => $rows["science"],
+                    "hindi"             => $rows["hindi"],
+                    "english"           => $rows["english"],
+                    "social_science"    => $rows["social_science"],
+                    "computer"          => $rows["computer"],
+                    "arts"              => $rows["arts"],
+                    "total"             => $total,
+                    "percentage"        => $percentage,
+                    "status"            => $status,
+                ];
+
+                // Insert data into the Result table
+                Result::create($resultData);
+            }
         }
     }
 
@@ -140,5 +175,19 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
         } else {
             return "Fail";
         }
+    }
+
+    private function cleanUpFileName($name)
+    {
+        // Replace special characters with a space
+        $name = preg_replace('/[^A-Za-z0-9\s]/', ' ', $name);
+
+        // Remove extra spaces
+        $name = preg_replace('/\s+/', '', $name);
+
+        // Trim spaces from the beginning and end of the string
+        $name = trim($name);
+
+        return $name;
     }
 }

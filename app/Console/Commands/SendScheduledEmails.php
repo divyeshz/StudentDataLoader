@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Carbon\Carbon;
+use App\Models\Result;
 use App\Models\Student;
 use App\Models\CustomSchedule;
 use Illuminate\Console\Command;
@@ -41,8 +42,10 @@ class SendScheduledEmails extends Command
 
             if ($scheduled->schedule_type == 'class') {
 
-                // Send mail to the entire class
-                $students = Student::where('class', $scheduled->schedule_value)->get();
+                // Retrieve students based on their results' class
+                $students = Student::whereHas('results', function ($query) use ($scheduled) {
+                    $query->where('class', $scheduled->schedule_value);
+                })->with('results')->get();
 
                 foreach ($students as $student) {
                     $scheduled->update(['status' => config('constant.schedule.progress')]);

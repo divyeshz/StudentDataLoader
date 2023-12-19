@@ -12,6 +12,7 @@ class Result extends BaseModel
 
     protected $fillable = [
         'std_id',
+        'class',
         'maths',
         'science',
         'hindi',
