@@ -125,5 +125,5 @@ Automated Emails: Automatically send result emails based on schedules.
 
 Access the Postman collection containing the API endpoints and examples:
 
-[Postman Collection](https://api.postman.com/collections/31777144-91cc706c-c7ba-4bca-afa1-c441ae779706?access_key=PMAT-01HHYH7DVF7WA5QDPP4PMB3K2Y)
+[Postman Collection](https://documenter.getpostman.com/view/31777144/2s9Ykocg4J)
 
