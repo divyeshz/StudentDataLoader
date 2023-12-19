@@ -39,7 +39,9 @@
 
 <body>
     <h1>Student Results</h1>
-
+    @php
+        $result = $student->results[0];
+    @endphp
     <table>
         <tr>
             <th>Student Name</th>
@@ -51,7 +53,7 @@
         </tr>
         <tr>
             <th>Class</th>
-            <td>{{ $student->class }}</td>
+            <td>{{ $result->class }}</td>
         </tr>
         <tr>
             <th>Gender</th>
@@ -75,41 +77,20 @@
         @foreach (['maths', 'science', 'hindi', 'english', 'social_science', 'computer', 'arts'] as $subject)
             <tr>
                 <td>{{ ucfirst($subject) }}</td>
-                <td>
-                    @foreach ($student->results as $result)
-                        @if ($result->subject === $subject)
-                            {{ $result->score }}
-                        @endif
-                    @endforeach
-                </td>
+                <td>{{ $result->{$subject} }}</td>
             </tr>
         @endforeach
         <tr>
             <td><strong>Total</strong></td>
-            <td><strong>
-                    @foreach ($student->results as $result)
-                        {{ $result->total }}
-                    @endforeach
-                </strong>
-            </td>
+            <td><strong>{{ $result->total }}</strong></td>
         </tr>
         <tr>
             <td><strong>Percentage</strong></td>
-            <td><strong>
-                    @foreach ($student->results as $result)
-                        {{ $result->percentage }}%
-                    @endforeach
-                </strong>
-            </td>
+            <td><strong>{{ $result->percentage }}%</strong></td>
         </tr>
         <tr>
             <td><strong>Status</strong></td>
-            <td><strong>
-                    @foreach ($student->results as $result)
-                        {{ $result->status }}
-                    @endforeach
-                </strong>
-            </td>
+            <td><strong>{{ $result->status }}</strong></td>
         </tr>
     </table>
 </body>

@@ -63,7 +63,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
         $results = $students->results;
 
         // Chek Student and Result empty than create
-        if (!$students && !$results) {
+        if (!$students) {
 
             // Find or create a file reference
             $fileReference = FileReference::firstOrCreate(['filename' => $this->filename]);
@@ -91,7 +91,7 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
             $status             = $this->checkStudentStatus($percentage);
 
             // Extract data for the Result table
-            $resultData = [
+            Result::create([
                 "std_id"            => $students->id,
                 "class"             => $rows["class"],
                 "maths"             => $rows["maths"],
@@ -104,39 +104,38 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
                 "total"             => $total,
                 "percentage"        => $percentage,
                 "status"            => $status,
-            ];
+            ]);
 
-            // Insert data into the Result table
-            Result::create($resultData);
-        }
+            return true;
+        } else {
+            foreach ($results as $result) {
 
-        foreach ($results as $result) {
+                // Chek Student not empty and Student class is not same as in database result class
+                if ($result->class != $rows["class"]) {
+                    $percentageAndTotal = $this->calculatePercentageAndTotal($rows);
+                    $percentage         = $percentageAndTotal['percentage'];
+                    $total              = $percentageAndTotal['total'];
+                    $status             = $this->checkStudentStatus($percentage);
 
-            // Chek Student not empty and Student class is not same as in database result class
-            if ($students && $result->class != $rows["class"]) {
-                $percentageAndTotal = $this->calculatePercentageAndTotal($rows);
-                $percentage         = $percentageAndTotal['percentage'];
-                $total              = $percentageAndTotal['total'];
-                $status             = $this->checkStudentStatus($percentage);
+                    // Extract data for the Result table
+                    Result::create([
+                        "std_id"            => $students->id,
+                        "class"             => $rows["class"],
+                        "maths"             => $rows["maths"],
+                        "science"           => $rows["science"],
+                        "hindi"             => $rows["hindi"],
+                        "english"           => $rows["english"],
+                        "social_science"    => $rows["social_science"],
+                        "computer"          => $rows["computer"],
+                        "arts"              => $rows["arts"],
+                        "total"             => $total,
+                        "percentage"        => $percentage,
+                        "status"            => $status,
+                    ]);
 
-                // Extract data for the Result table
-                $resultData = [
-                    "std_id"            => $students->id,
-                    "class"             => $rows["class"],
-                    "maths"             => $rows["maths"],
-                    "science"           => $rows["science"],
-                    "hindi"             => $rows["hindi"],
-                    "english"           => $rows["english"],
-                    "social_science"    => $rows["social_science"],
-                    "computer"          => $rows["computer"],
-                    "arts"              => $rows["arts"],
-                    "total"             => $total,
-                    "percentage"        => $percentage,
-                    "status"            => $status,
-                ];
+                    return true;
 
-                // Insert data into the Result table
-                Result::create($resultData);
+                }
             }
         }
     }

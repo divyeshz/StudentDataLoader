@@ -42,10 +42,10 @@ class SendScheduledEmails extends Command
 
             if ($scheduled->schedule_type == 'class') {
 
-                // Retrieve students based on their results' class
-                $students = Student::whereHas('results', function ($query) use ($scheduled) {
+                // Retrieve students based on their results class
+                $students = Student::with(['results' => function ($query) use ($scheduled) {
                     $query->where('class', $scheduled->schedule_value);
-                })->with('results')->get();
+                }])->get();
 
                 foreach ($students as $student) {
                     $scheduled->update(['status' => config('constant.schedule.progress')]);

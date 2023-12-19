@@ -33,7 +33,6 @@ class SendScheduledEmailJob implements ShouldQueue
      */
     public function handle(): void
     {
-
         $student = $this->student;
 
         $pdf = new Dompdf();
