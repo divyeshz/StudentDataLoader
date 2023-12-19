@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->char('id', 36)->primary();
+            $table->uuid('file_reference_id')->nullable(); // Foreign key field
             $table->string('roll_no', 15);
             $table->string('name', 50);
             $table->integer('class');
             $table->string('email', 50);
-            $table->enum('gender', ['male', 'female', 'other'])->nullable();
-            $table->string('guardian_name', 50)->nullable();
+            $table->enum('gender', ['male', 'female', 'other']);
+            $table->string('guardian_name', 50);
             $table->string('guardian_email', 50);
-            $table->string('city', 10)->nullable();
-            $table->string('state', 10)->nullable();
-            $table->integer('pincode')->nullable();
-            $table->uuid('file_reference_id')->nullable(); // Foreign key field
+            $table->string('city', 10);
+            $table->string('state', 10);
+            $table->integer('pincode');
             $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User

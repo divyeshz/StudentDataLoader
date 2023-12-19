@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('arts');
             $table->integer('total')->default(0);
             $table->decimal('percentage', 8, 2)->default(0);
-            $table->char('status',50)->nullable();
+            $table->string('status',50)->nullable();
             $table->char('created_by', 36)->nullable(); // Create By Wich User
             $table->char('updated_by', 36)->nullable(); // Update By Wich User
             $table->timestamps();

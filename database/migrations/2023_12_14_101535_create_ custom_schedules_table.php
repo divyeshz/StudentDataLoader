@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('custom_schedules', function (Blueprint $table) {
             $table->char('id', 36)->primary();
-            $table->char('schedule_type', 50)->nullable();
+            $table->enum('schedule_type', ['class', 'student'])->nullable();
             $table->dateTime('datetime')->nullable();
             $table->string('schedule_value', 15)->nullable();
-            $table->char('status', 50)->nullable();
+            $table->string('status', 50)->nullable();
             $table->boolean('is_send')->default(0)->comment('0:false,1:true');
             $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
             $table->char('created_by', 36)->nullable(); // Create By Wich User
