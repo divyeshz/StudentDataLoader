@@ -26,16 +26,23 @@ class StudentImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'roll_no'        => 'required|regex:/^STD_\d{5}$/',
-            'name'           => 'required|string',
-            'class'          => 'required|numeric|in:1,2,3,4,5,6,7,8,9,10,11,12',
-            'email'          => 'required|email',
-            'gender'         => 'required|in:male,female,other',
-            'guardian_name'  => 'required|string',
-            'guardian_email' => 'required|email',
-            'city'           => 'required|string',
-            'state'          => 'required|string',
-            'pincode'        => 'required|digits:6',
+            'roll_no'           => 'required|regex:/^STD_\d{5}$/',
+            'name'              => 'required|string',
+            'class'             => 'required|numeric|between:1,12',
+            'email'             => 'required|email',
+            'gender'            => 'required|in:male,female,other',
+            'guardian_name'     => 'required|string',
+            'guardian_email'    => 'required|email',
+            'city'              => 'required|string',
+            'state'             => 'required|string',
+            'pincode'           => 'required|digits:6',
+            'maths'             => 'required|numeric|min:0|max:100',
+            'science'           => 'required|numeric|min:0|max:100',
+            'hindi'             => 'required|numeric|min:0|max:100',
+            'english'           => 'required|numeric|min:0|max:100',
+            'social_science'    => 'required|numeric|min:0|max:100',
+            'computer'          => 'required|numeric|min:0|max:100',
+            'arts'              => 'required|numeric|min:0|max:100',
         ];
     }
 
