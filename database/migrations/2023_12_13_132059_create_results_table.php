@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->char('id', 36)->primary();
             $table->uuid('std_id');
+            $table->integer('class');
             $table->integer('maths');
             $table->integer('science');
             $table->integer('hindi');

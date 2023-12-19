@@ -16,7 +16,6 @@ return new class extends Migration
             $table->uuid('file_reference_id')->nullable(); // Foreign key field
             $table->string('roll_no', 15);
             $table->string('name', 50);
-            $table->integer('class');
             $table->string('email', 50);
             $table->enum('gender', ['male', 'female', 'other']);
             $table->string('guardian_name', 50);
